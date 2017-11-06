@@ -1,0 +1,23 @@
+jobs:
+- name: run-unit-test
+  plan:
+  - get: ci
+  - get: app
+    trigger: true
+  - task: unit-test
+    file: ci/tasks/run-unit-test.yml
+
+---
+resources:
+- name: app
+  type: git
+  source:
+    uri: https://github.com/axhi/not-your-pipeline
+    branch: master
+    paths: ["src"]
+- name: ci
+  type: git
+  source:
+    uri: https://github.com/axhi/not-your-pipeline
+    branch: master
+    paths: ["concourse"]

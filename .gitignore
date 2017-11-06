@@ -2,3 +2,10 @@ keys/*
 keys
 .keys
 .keys/*
+.idea/**/*
+node_modules
+.DS_Store
+bundle
+css
+.tmp
+npm-debug.log

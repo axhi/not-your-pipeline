@@ -5,4 +5,4 @@ inputs:
   - name: ci
   - name: app
 run:
-  path: ci/tasks/run-unit-test.sh
+  path: concourse/tasks/run-unit-test.sh

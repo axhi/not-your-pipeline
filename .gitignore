@@ -9,3 +9,4 @@ bundle
 css
 .tmp
 npm-debug.log
+concourse/credentials.yml

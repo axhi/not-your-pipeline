@@ -9,6 +9,17 @@ jobs:
     - get: concourse
   - task: unit-test
     file: concourse/tasks/run-unit-test.yml
+- name: deploy-dev
+  plan:
+  - aggregate:
+    - get: src
+      passed: ["run-unit-test"]
+    - get: concourse
+  - task: build-app
+    file: concourse/tasks/build-app.yml
+  - put: resource-deploy-web-app
+    params:
+      manifest: build-output/manifest.yml
 
 resources:
 - name: src
@@ -21,3 +32,11 @@ resources:
   source:
     uri: https://github.com/axhi/not-your-pipeline
     paths: ["concourse"]
+- name: cf-deploy
+  type: cf
+  source:
+    api: https://api.run.pivotal.io
+    username: {{pcf-user}}
+    password: {{pcf-pass}}
+    organization: asabani-org
+    space: development

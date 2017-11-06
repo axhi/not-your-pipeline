@@ -8,7 +8,7 @@ jobs:
       trigger: true
     - get: concourse
   - task: unit-test
-    file: concourse/tasks/run-unit-test.yml
+    file: ci/concourse/tasks/run-unit-test.yml
 - name: deploy-dev
   plan:
   - aggregate:
@@ -16,7 +16,7 @@ jobs:
       passed: ["run-unit-test"]
     - get: concourse
   - task: build-app
-    file: concourse/tasks/build-app.yml
+    file: ci/concourse/tasks/build-app.yml
   - put: cf-deploy
     params:
       manifest: src/manifest.yml
@@ -28,7 +28,7 @@ resources:
   source:
     uri: https://github.com/axhi/not-your-pipeline
     paths: ["src"]
-- name: concourse
+- name: ci
   type: git
   source:
     uri: https://github.com/axhi/not-your-pipeline

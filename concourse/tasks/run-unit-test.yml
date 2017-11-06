@@ -6,9 +6,9 @@ image_resource:
   source:
     repository: node
 inputs:
-  - name: concourse
+  - name: ci
   - name: src
 outputs:
   - name: build-output
 run:
-  path: concourse/tasks/run-unit-test.sh
+  path: ci/concourse/tasks/run-unit-test.sh

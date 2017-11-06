@@ -6,7 +6,7 @@ image_resource:
   source:
     repository: node
 inputs:
-  - name: concourse
+  - name: ci
   - name: src
 run:
-  path: concourse/tasks/build-app.sh
+  path: ci/concourse/tasks/build-app.sh

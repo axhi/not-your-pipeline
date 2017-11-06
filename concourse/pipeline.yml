@@ -18,6 +18,8 @@ jobs:
   plan:
   - get: ci
   - get: app
+  - put: ci
+  - put: app
     trigger: true
   - task: unit-test
     file: ci/tasks/run-unit-test.yml

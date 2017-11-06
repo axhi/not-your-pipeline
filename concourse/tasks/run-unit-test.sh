@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cd src && npm test
+cd app && npm test

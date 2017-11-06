@@ -17,7 +17,7 @@ jobs:
     - get: concourse
   - task: build-app
     file: concourse/tasks/build-app.yml
-  - put: resource-deploy-web-app
+  - put: cf-deploy
     params:
       manifest: build-output/manifest.yml
 

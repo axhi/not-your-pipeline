@@ -1,12 +1,3 @@
-jobs:
-- name: run-unit-test
-  plan:
-  - get: ci
-  - get: app
-    trigger: true
-  - task: unit-test
-    file: ci/tasks/run-unit-test.yml
-
 ---
 resources:
 - name: app
@@ -21,3 +12,12 @@ resources:
     uri: https://github.com/axhi/not-your-pipeline
     branch: master
     paths: ["concourse"]
+
+jobs:
+- name: run-unit-test
+  plan:
+  - get: ci
+  - get: app
+    trigger: true
+  - task: unit-test
+    file: ci/tasks/run-unit-test.yml

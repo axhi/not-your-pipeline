@@ -1,22 +1,23 @@
 ---
-resources:
-- name: app
-  type: git
-  source:
-    uri: https://github.com/axhi/not-your-pipeline.git
-    paths: ["src"]
-- name: ci
-  type: git
-  source:
-    uri: https://github.com/axhi/not-your-pipeline.git
-    paths: ["concourse"]
-
 jobs:
 - name: run-unit-test
+  public: true
   plan:
   - aggregate:
-    - get: ci
-    - get: app
+    - get: src
       trigger: true
+    - get: concourse
   - task: unit-test
-    file: ci/tasks/run-unit-test.yml
+    file: concourse/tasks/run-unit-test.yml
+
+resources:
+- name: src
+  type: git
+  source:
+    uri: https://github.com/axhi/not-your-pipeline
+    paths: ["src"]
+- name: concourse
+  type: git
+  source:
+    uri: https://github.com/axhi/not-your-pipeline
+    paths: ["concourse"]

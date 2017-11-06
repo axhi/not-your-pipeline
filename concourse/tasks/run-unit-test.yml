@@ -6,7 +6,7 @@ image_resource:
   source:
     repository: node
 inputs:
-  - name: ci
-  - name: app
+  - name: concourse
+  - name: src
 run:
-  path: ci/tasks/run-unit-test.sh
+  path: concourse/tasks/run-unit-test.sh

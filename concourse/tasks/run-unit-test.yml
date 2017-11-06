@@ -8,5 +8,7 @@ image_resource:
 inputs:
   - name: concourse
   - name: src
+outputs:
+  - name: build-output
 run:
   path: concourse/tasks/run-unit-test.sh

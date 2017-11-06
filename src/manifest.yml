@@ -1,5 +1,4 @@
 ---
 applications:
   - name: not-your-pipeline
-    path: public
     memory: 64MB

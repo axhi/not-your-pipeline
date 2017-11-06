@@ -19,7 +19,8 @@ jobs:
     file: concourse/tasks/build-app.yml
   - put: cf-deploy
     params:
-      manifest: build-output/manifest.yml
+      manifest: src/manifest.yml
+      path: build-output/
 
 resources:
 - name: src

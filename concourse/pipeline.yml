@@ -13,6 +13,7 @@ jobs:
   plan:
   - aggregate:
     - get: src
+      trigger: true
       passed: ["run-unit-test"]
     - get: ci
   - task: build-app

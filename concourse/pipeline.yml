@@ -27,7 +27,7 @@ resources:
   type: git
   source:
     uri: https://github.com/axhi/not-your-pipeline
-    paths: ["src"]
+    paths: ["app"]
 - name: ci
   type: git
   source:

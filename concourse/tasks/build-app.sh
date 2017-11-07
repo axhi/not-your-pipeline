@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cd src && npm build
+cd src/app && npm build

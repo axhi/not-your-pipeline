@@ -20,7 +20,7 @@ jobs:
     file: ci/concourse/tasks/build-app.yml
   - put: cf-deploy
     params:
-      manifest: src/manifest.yml
+      manifest: src/app/manifest.yml
       path: build-output/
 
 resources:

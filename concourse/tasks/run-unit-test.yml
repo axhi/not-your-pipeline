@@ -8,7 +8,5 @@ image_resource:
 inputs:
   - name: ci
   - name: src
-outputs:
-  - name: build-output
 run:
   path: ci/concourse/tasks/run-unit-test.sh

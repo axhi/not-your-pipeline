@@ -1,3 +1,9 @@
+.app {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
 .app-header {
   background-color: #009999;
   height: 50px;
@@ -13,4 +19,10 @@
 .app-main {
   font-size: large;
   padding: 5px;
+}
+
+.box-element {
+  height: 50%;
+  width: 100%;
+  pointer-events: none;
 }

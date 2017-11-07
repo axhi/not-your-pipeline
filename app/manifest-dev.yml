@@ -1,0 +1,4 @@
+---
+applications:
+  - name: not-your-pipeline-dev
+    memory: 64MB

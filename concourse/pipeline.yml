@@ -1,4 +1,13 @@
 ---
+groups:
+- name: dev
+  jobs:
+  - run-unit-test
+  - deploy-dev
+- name: prod
+  jobs:
+  - deploy-prod
+
 jobs:
 - name: run-unit-test
   public: true
@@ -18,10 +27,23 @@ jobs:
     - get: ci
   - task: build-app
     file: ci/concourse/tasks/build-app.yml
-  - put: cf-deploy
+  - put: cf-deploy-dev
+    params:
+      manifest: src/app/manifest-dev.yml
+      path: build-output/
+- name: deploy-prod
+  plan:
+  - aggregate:
+    - get: src
+      passed: ["deploy-dev"]
+    - get: ci
+  - task: build-app
+    file: ci/concourse/tasks/build-app.yml
+  - put: cf-deploy-prod
     params:
       manifest: src/app/manifest.yml
       path: build-output/
+
 
 resources:
 - name: src
@@ -34,7 +56,7 @@ resources:
   source:
     uri: https://github.com/axhi/not-your-pipeline
     paths: ["concourse"]
-- name: cf-deploy
+- name: cf-deploy-dev
   type: cf
   source:
     api: https://api.run.pivotal.io
@@ -42,3 +64,11 @@ resources:
     password: {{pcf-pass}}
     organization: asabani-org
     space: development
+- name: cf-deploy-prod
+  type: cf
+  source:
+    api: https://api.run.pivotal.io
+    username: {{pcf-user}}
+    password: {{pcf-pass}}
+    organization: asabani-org
+    space: production

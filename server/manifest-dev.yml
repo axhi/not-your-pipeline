@@ -2,4 +2,5 @@
 applications:
   - name: not-your-loader-dev
     memory: 64MB
+    buildpack: nodejs-buildpack
     command: node app.js

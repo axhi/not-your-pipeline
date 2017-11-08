@@ -1,0 +1,4 @@
+---
+applications:
+  - name: not-your-loader
+    memory: 64MB

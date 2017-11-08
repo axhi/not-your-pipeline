@@ -4,9 +4,11 @@ groups:
   jobs:
   - run-unit-test
   - deploy-dev
+  - deploy-server-dev
 - name: prod
   jobs:
   - deploy-prod
+  - deploy-server-prod
 
 jobs:
 - name: run-unit-test
@@ -31,6 +33,17 @@ jobs:
     params:
       manifest: src/app/manifest-dev.yml
       path: build-output/
+- name: deploy-server-dev
+  plan:
+  - aggregate:
+    - get: server
+      trigger: true
+    - get: ci
+  - put: cf-deploy-dev
+    params:
+      manifest: server/server/manifest-dev.yml
+      path: server/server
+
 - name: deploy-prod
   plan:
   - aggregate:
@@ -43,7 +56,16 @@ jobs:
     params:
       manifest: src/app/manifest.yml
       path: build-output/
-
+- name: deploy-server-prod
+  plan:
+  - aggregate:
+    - get: server
+      passed: ["deploy-server-dev"]
+    - get: ci
+  - put: cf-deploy-prod
+    params:
+      manifest: server/server/manifest.yml
+      path: server/server
 
 resources:
 - name: src
@@ -56,6 +78,11 @@ resources:
   source:
     uri: https://github.com/axhi/not-your-pipeline
     paths: ["concourse"]
+- name: server
+  type: git
+  source:
+    uri: https://github.com/axhi/not-your-pipeline
+    paths: ["server"]
 - name: cf-deploy-dev
   type: cf
   source:

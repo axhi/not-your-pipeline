@@ -25,6 +25,7 @@
     "jest": "^21.2.1",
     "react-test-renderer": "^16.0.0"
   },
+  "proxy": "http://localhost:8080",
   "jest": {
     "moduleNameMapper": {
       "\\.(css|scss)$": "<rootDir>/__mocks__/styleMock.js"

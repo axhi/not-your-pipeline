@@ -2,3 +2,4 @@
 applications:
   - name: not-your-loader
     memory: 64MB
+    command: node app.js

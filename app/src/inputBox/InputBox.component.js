@@ -5,7 +5,7 @@ const classMappings = {
     topLeft: {
         class: 'box-element',
         id: 1,
-        frameClass: 'box'
+        frameClass: 'quarter-box box'
     },
     bottomLeft: {
         class: 'box-element quarter',

@@ -2,4 +2,5 @@
 applications:
   - name: not-your-loader
     memory: 64MB
+    buildpack: https://github.com/cloudfoundry/nodejs-buildpack
     command: node app.js

@@ -29,6 +29,8 @@ jobs:
     - get: ci
   - task: build-app
     file: ci/concourse/tasks/build-app.yml
+    params:
+      RUN: build-dev
   - put: cf-deploy-dev
     params:
       manifest: src/app/manifest-dev.yml
@@ -52,6 +54,8 @@ jobs:
     - get: ci
   - task: build-app
     file: ci/concourse/tasks/build-app.yml
+    params:
+      RUN: build
   - put: cf-deploy-prod
     params:
       manifest: src/app/manifest.yml

@@ -40,4 +40,15 @@ describe('App()', () => {
         expect(nonBox.first().props().id).not.toBe(undefined);
         expect(nonBox.first().props().src).toBe(undefined);
     });
+
+    describe('magnifcation', () => {
+        const shallowRend = shallow(<App/>);
+
+        it('displays one box if hasFocus', () => {
+            shallowRend.setState({hasFocus: {}});
+            const boxes = shallowRend.find("BoxFrame");
+
+            expect(boxes.length).toEqual(1);
+        });
+    });
 });

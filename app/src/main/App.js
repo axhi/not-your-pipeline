@@ -12,8 +12,8 @@ class App extends Component {
     }
 
     componentDidMount() {
-        // this.checkForError();
-        // this.interval = setInterval(this.checkForError.bind(this), 1000);
+        this.checkForError();
+        this.interval = setInterval(this.checkForError.bind(this), 1000);
     }
 
     componentWillUnmount() {
@@ -45,8 +45,8 @@ class App extends Component {
                     length: z.filter((x) => (x.finished_build && (x.finished_build.status === "failed" || x.finished_build.status === "errored"))).length
                 }
             });
-        }).then((newThing) => {
-            newThing.forEach((n) => {
+        }).then((z) => {
+            z.forEach((n) => {
                 if (n.length) {
                     focusObject = {
                         id: n.key.id,

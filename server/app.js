@@ -31,7 +31,7 @@ function goGetUrl(req, res) {
 function renderResponse(res, body, group) {
     let b = JSON.parse(body);
     if (group) {
-        b = b.filter(function(ob) {
+        b = b.filter(function (ob) {
             return ob.groups.indexOf(group) > -1;
         });
     }
@@ -52,7 +52,37 @@ router.get('/url', function (req, res) {
 });
 
 router.get('/tracker', function (req, res) {
-    res.json({what: 'asdf'});
+    const url_parts = url.parse(req.url, true);
+    const query = url_parts.query;
+    const apiKey = query.apiKey;
+    const projectId = query.projectId;
+
+    if (!apiKey || !projectId) {
+        return res.json({error: 'Need a apiKey and projectId'});
+    }
+
+    return request({
+        headers: {
+            'X-TrackerToken': apiKey,
+        },
+        uri: "https://www.pivotaltracker.com/services/v5/projects/" + projectId + "/iterations?scope=current",
+        method: 'GET'
+    }, function (error, response, body) {
+        const jsonBody = JSON.parse(body);
+        if (error || jsonBody.error) {
+            return res.json({error: jsonBody.error})
+        }
+
+        request({
+            headers: {
+                'X-TrackerToken': apiKey,
+            },
+            uri: "https://www.pivotaltracker.com/services/v5/projects/" + projectId + "/iterations/" + jsonBody[0].number + "/analytics",
+            method: 'GET'
+        }, function (error, response, body) {
+          res.json(JSON.parse(body))
+        })
+    });
 });
 
 app.use('/', router);

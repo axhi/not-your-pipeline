@@ -10,9 +10,9 @@
     "react-scripts": "1.0.17"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build-dev": "NODE_ENV=dev react-scripts build",
-    "build": "NODE_ENV=prod react-scripts build",
+    "start": "REACT_APP_ENV=local react-scripts start",
+    "build-dev": "REACT_APP_ENV=dev react-scripts build",
+    "build": "REACT_APP_ENV=prod react-scripts build",
     "test": "jest --setupTestFrameworkScriptFile=raf/polyfill",
     "test-watch": "jest --watch --setupTestFrameworkScriptFile=raf/polyfill",
     "eject": "react-scripts eject"

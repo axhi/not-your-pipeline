@@ -1,0 +1,18 @@
+.box-element {
+    height: 50%;
+    width: 100%;
+    pointer-events: none;
+}
+
+.box-element.quarter {
+    width: 50%;
+    display: inline-block;
+    vertical-align: top;
+    background: beige;
+}
+
+.full {
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
+}

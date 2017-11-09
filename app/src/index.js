@@ -4,5 +4,19 @@ import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 import App from "./main/App";
 
-ReactDOM.render(<App />, document.getElementById('root'));
+let ENV_SETTINGS = {
+    development: {
+        loader: 'http://localhost:8080'
+    },
+    dev: {
+        loader: 'https://not-your-loader-dev.cfapps.io'
+    },
+    prod: {
+        loader: 'https://not-your-loader.cfapps.io'
+    }
+};
+
+let currentEnv = ENV_SETTINGS[process.env.NODE_ENV || 'development'];
+
+ReactDOM.render(<App currentEnv={currentEnv} />, document.getElementById('root'));
 registerServiceWorker();

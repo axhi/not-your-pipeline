@@ -8,11 +8,7 @@ class App extends Component {
         super(props, context);
         this.state = {
             hasFocus: null
-        }
-    }
-
-    componentDidMount() {
-        this.checkForError();
+        };
         this.interval = setInterval(this.checkForError.bind(this), 1000);
     }
 
@@ -36,13 +32,16 @@ class App extends Component {
             }
         }
 
-        Promise.all(fetchRequests.map((box) => {
+        return Promise.all(fetchRequests.map((box) => {
             return this.completeRequest(box.getElementsByTagName('iframe')[0].src)
         })).then((e) => {
             return e.map((z, i) => {
                 return {
                     key: fetchRequests[i],
-                    length: z.filter((x) => (x.finished_build && (x.finished_build.status === "failed" || x.finished_build.status === "errored"))).length
+                    length: z.filter((x) => (x.finished_build
+                        && (x.finished_build.status === "failed"
+                            || x.finished_build.status === "errored")))
+                        .length
                 }
             });
         }).then((z) => {

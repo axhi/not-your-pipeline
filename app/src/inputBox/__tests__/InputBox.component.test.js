@@ -29,6 +29,7 @@ describe('InputBox()', () => {
     });
 
     it('enables submit when correct selection', () => {
+        wrapper.find('select').simulate('change', {target: {value: 'pipeline'}});
         wrapper.find('input').first().simulate('change', {target: {value: 'asdf'}});
 
         expect(wrapper.find('input').last().props().disabled).toBe('');
@@ -46,6 +47,7 @@ describe('InputBox()', () => {
                 "class": "box-element",
                 "half": undefined,
                 "id": "pipeline-1",
+                "projectId": "",
                 "src": ""});
         });
     });

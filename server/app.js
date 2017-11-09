@@ -51,5 +51,9 @@ router.get('/url', function (req, res) {
     });
 });
 
+router.get('/tracker', function (req, res) {
+    res.json({what: 'asdf'});
+});
+
 app.use('/', router);
 app.listen(port);

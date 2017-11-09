@@ -29,7 +29,8 @@ export class InputBox extends Component {
         this.state = {
             type: 'pipeline',
             src: '',
-            apiKey: ''
+            apiKey: '',
+            projectId: ''
         };
     }
 
@@ -45,7 +46,8 @@ export class InputBox extends Component {
                 half: classMappingType.half,
                 id: this.state.type + '-' + classMappingType.id,
                 src: this.state.src,
-                apiKey: this.state.apiKey
+                apiKey: this.state.apiKey,
+                projectId: this.state.projectId
             });
     }
 
@@ -76,16 +78,23 @@ export class InputBox extends Component {
 
     displayTracker() {
         if (this.state.type === 'tracker') {
-            return <input type='text'
-                          id='api-box'
-                          value={this.state.apiKey}
-                          onChange={(e) => this.handleChange(e, 'apiKey')}
-                          placeholder='Tracker Key'/>
+            return <div>
+                <input type='text'
+                       id='api-box'
+                       value={this.state.apiKey}
+                       onChange={(e) => this.handleChange(e, 'apiKey')}
+                       placeholder='Tracker Key'/>
+                <input type='text'
+                       id='api-tracker-id'
+                       value={this.state.projectId}
+                       onChange={(e) => this.handleChange(e, 'projectId')}
+                       placeholder='Tracker Project Id'/>
+            </div>
         }
     }
 
     isComplete() {
-        return (this.state.type === 'tracker' && this.state.apiKey)
+        return (this.state.type === 'tracker' && (this.state.apiKey && this.state.projectId))
             || (this.state.type === 'pipeline' && this.state.src)
     }
 }

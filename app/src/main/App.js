@@ -1,13 +1,22 @@
-import React, {Component} from 'react';
+import React, {Component, createElement} from 'react';
 import './app.css';
 import {Box} from "../box/Box.component";
 import {BoxFrame} from "../box/BoxFrame.component";
+import {InputBox} from "../inputBox/InputBox.component";
+
+const components = {
+    "BoxFrame": BoxFrame,
+    "Box": Box
+};
 
 class App extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            hasFocus: null
+            hasFocus: null,
+            topLeft: null,
+            bottomLeft: null,
+            bottomRight: null
         };
         this.interval = setInterval(this.checkForError.bind(this), 1000);
     }
@@ -59,30 +68,62 @@ class App extends Component {
     }
 
     displayBoxes() {
+        if (!this.state.hasFocus) {
+            return <span>
+                {this.displayTopLeftBox()}
+                {this.displayBottomLeftBox()}
+                {this.displayBottomRightBox()}
+                </span>
+        }
+    }
+
+    displayMainBox() {
         if (this.state.hasFocus) {
             return <BoxFrame id={this.state.hasFocus.id}
                              class={'box-element full'}
                              src={this.state.hasFocus.src}/>
         }
+    }
 
-        return <span>
-            <BoxFrame id="pipeline-1"
-                      class={'box-element'}
-                      src="http://54.174.113.230:8080/teams/main/pipelines/not-your-pipeline?groups=dev"/>
-            <BoxFrame id="pipeline-2"
-                      class={'box-element quarter'}
-                      half={true}
-                      src="http://54.174.113.230:8080/teams/main/pipelines/not-your-pipeline?groups=prod"/>
-            <Box id="tracker-1"
-                 class={'box-element quarter'}
-                 half={true}/>
-        </span>
+    displayTopLeftBox() {
+        if (!this.state.topLeft) {
+            return <InputBox callback={this.setBoxState.bind(this)}
+                             position='topLeft'/>;
+        }
+
+        return createElement(components[this.state.topLeft.type],
+            this.state.topLeft.data);
+    }
+
+    displayBottomLeftBox() {
+        if (!this.state.bottomLeft) {
+            return <InputBox callback={this.setBoxState.bind(this)}
+                             position='bottomLeft'/>;
+        }
+
+        return createElement(components[this.state.bottomLeft.type],
+            this.state.bottomLeft.data);
+    }
+
+    displayBottomRightBox() {
+        if (!this.state.bottomRight) {
+            return <InputBox callback={this.setBoxState.bind(this)}
+                             position='bottomRight'/>;
+        }
+
+        return createElement(components[this.state.bottomRight.type],
+            this.state.bottomRight.data);
+    }
+
+    setBoxState(level, type, data) {
+        this.setState({[level]: {type: type, data: data}});
     }
 
     render() {
         return (
             <div className="app" ref='app'>
                 {this.displayBoxes()}
+                {this.displayMainBox()}
             </div>
         );
     }

@@ -5,42 +5,43 @@ import App from "../App";
 describe('App()', () => {
     describe('main app', () => {
         fetch.mockResponse(JSON.stringify([]));
-        const component = mount(<App currentEnv={{loader: 'http://test.com'}}/>);
 
         it('sets the component up', () => {
+            const component = mount(<App currentEnv={{loader: 'http://test.com'}}/>);
             const divs = component.find("div");
 
             expect(divs.length).toBeGreaterThan(0);
         });
 
-        it('builds boxes for third display', () => {
-            const boxes = component.find("BoxFrame");
-            const box = component.find("Box");
+        it('displays an input box if not input selected for all', () => {
+            const shallowRend = mount(<App currentEnv={{loader: 'http://test.com'}}/>);
 
-            expect(boxes.length).toBe(2);
-            expect(box.length).toBe(1);
+            expect(shallowRend.find('InputBox').length).toBe(3);
+            expect(shallowRend.find('InputBox').first().props().callback).not.toBe(undefined);
+            expect(shallowRend.find('InputBox').first().props().position).not.toBe(undefined);
         });
 
-        it('passes id and src to box type', () => {
-            const pipeline1 = component.find("BoxFrame");
+        it('sets box level when callback is triggered', () => {
+            const wrapper = mount(<App currentEnv={{loader: 'http://test.com'}}/>);
+            wrapper.instance().setBoxState('topLeft', 'BoxFrame', {});
+            wrapper.update();
 
-            expect(pipeline1.first().props().src).not.toBeNull();
-            expect(pipeline1.first().props().id).not.toBeNull();
+            expect(wrapper.find('BoxFrame').length).toBe(1);
         });
 
-        it('builds for third displays by passing half true', () => {
-            const pipeline2 = component.find("BoxFrame");
-            const tracker = component.find("Box");
+        describe('has been set', () => {
+            const component = shallow(<App currentEnv={{loader: 'http://test.com'}}/>);
+            component.setState({topLeft: {type: 'BoxFrame'},
+                bottomLeft: {type: 'BoxFrame'},
+                bottomRight: {type: 'Box'}});
 
-            expect(pipeline2.last().props().class).toContain('quarter');
-            expect(tracker.first().props().class).toContain('quarter');
-        });
+            it('builds boxes for third display', () => {
+                const boxes = component.find("BoxFrame");
+                const box = component.find("Box");
 
-        it('passes id to non framed boxes', () => {
-            const nonBox = component.find("Box");
-
-            expect(nonBox.first().props().id).not.toBe(undefined);
-            expect(nonBox.first().props().src).toBe(undefined);
+                expect(boxes.length).toBe(2);
+                expect(box.length).toBe(1);
+            });
         });
     });
 
@@ -58,8 +59,8 @@ describe('App()', () => {
 
             const wrapper = mount(<App currentEnv={{loader: 'http://test.com'}}/>);
             return wrapper.instance().checkForError().then(() => {
-                    expect(wrapper.state().hasFocus).not.toBe(undefined);
-                });
+                expect(wrapper.state().hasFocus).not.toBe(undefined);
+            });
         });
     });
 });

@@ -1,0 +1,12 @@
+.box {
+    width: 100%;
+    height: 50%;
+    display: inline-block;
+    background: rgba(0,0,0,.1);
+}
+.quarter-box {
+    width: 50%;
+    height: 50%;
+    display: inline-block;
+    background: rgba(0,0,0,.1);
+}

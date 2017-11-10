@@ -38,7 +38,8 @@ export class InputBox extends Component {
         this.setState({[type]: event.target.value});
     }
 
-    handleSubmit() {
+    handleSubmit(e) {
+        e.preventDefault();
         const classMappingType = classMappings[this.props.position];
         this.props.callback(this.props.position,
             classMappings[this.state.type], {
@@ -53,6 +54,7 @@ export class InputBox extends Component {
 
     render() {
         return <div className={classMappings[this.props.position].frameClass}>
+            {this.props.error}
             <form onSubmit={this.handleSubmit.bind(this)}>
                 <select value={this.state.type}
                         onChange={(e) => this.handleChange(e, 'type')}>

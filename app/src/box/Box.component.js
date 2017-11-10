@@ -22,30 +22,48 @@ export class Box extends Component {
         return fetch(currentEnv.loader + '/tracker?apiKey=' + this.props.apiKey + '&projectId=' + this.props.projectId)
             .then((js) => js.json())
             .then((ob) => {
-                this.setState({
-                    storiesAccepted: ob.stories_accepted,
-                    bugsCreated: ob.bugs_created,
-                    cycleTime: moment.duration(ob.cycle_time).humanize(),
-                    rejectionRate: ob.rejection_rate
-                })
+                if (ob.error) {
+                    clearInterval(this.interval);
+                    this.setState({error: ob.error});
+                } else {
+                    this.setState({
+                        storiesAccepted: ob.stories_accepted,
+                        bugsCreated: ob.bugs_created,
+                        cycleTime: moment.duration(ob.cycle_time).humanize(),
+                        rejectionRate: ob.rejection_rate,
+                        start: moment(ob.start).format('M/D/YYYY'),
+                        finish: moment(ob.finish).format('M/D/YYYY')
+                    });
+                }
             });
     }
 
     render() {
         return <div className={this.props.class}
                     id={this.props.id}>
+            {this.displayAnalytics()}
+        </div>
+    }
+
+    displayAnalytics() {
+        if (this.state.error) {
+            return <div>{this.state.error}</div>;
+        } else if (this.state.start) {
+            return <span>
+                <h3>Iteration: {this.state.start} - {this.state.finish}</h3>
             <div className='stories'>
-                Stories Accepted: {this.state.storiesAccepted}
+                Stories Accepted: {this.state.storiesAccepted | 0}
             </div>
             <div className='bugs'>
-                Bugs Created: {this.state.bugsCreated}
+                Bugs Created: {this.state.bugsCreated | 0}
             </div>
             <div className='cycle'>
                 Cycle Time: {this.state.cycleTime}
             </div>
             <div className='rejection'>
-                Rejection Rate: {this.state.rejectionRate}
+                Rejection Rate: {this.state.rejectionRate | 0}
             </div>
-        </div>
+            </span>
+        }
     }
 }

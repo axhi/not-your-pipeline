@@ -3,16 +3,24 @@ import {mount, shallow} from 'enzyme';
 import {Box} from "../Box.component";
 
 describe('Box()', () => {
-    fetch.mockResponse(JSON.stringify({}));
+    fetch.mockResponse({});
     const component = mount(<Box id="1" class="turds" />);
 
     it('sets the component up', () => {
+        fetch.mockResponse({});
+
         const divs = component.find("div");
 
         expect(divs.length).toBeGreaterThan(0);
     });
 
     it('sets classname from incoming props', () => {
+        fetch.mockResponse({
+            "stories_accepted": 5,
+            "bugs_created": 0,
+            "cycle_time": 8845000,
+            "rejection_rate": 0
+        });
         const div = component.find("div");
 
         expect(div.first().props().className).toEqual("turds");

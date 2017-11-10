@@ -7,7 +7,7 @@ describe('InputBox()', () => {
     const wrapper = shallow(<InputBox position={'topLeft'}
                                       callback={mockCallback}/>);
     it('executes callback on button click', () => {
-        wrapper.instance().handleSubmit();
+        wrapper.find('form').simulate('submit', {preventDefault: ()=>{}});
 
         expect(mockCallback.mock.calls.length).toBe(1);
     });
@@ -38,7 +38,7 @@ describe('InputBox()', () => {
     describe('handleSubmit()', () => {
         it('sends concourse boxframe', () => {
             wrapper.find('input').first().simulate('change', {target: {value: 'asdf'}});
-            wrapper.find('form').first().simulate('submit');
+            wrapper.find('form').first().simulate('submit', {preventDefault: ()=>{}});
 
             expect(mockCallback.mock.calls[0][0]).toEqual('topLeft');
             expect(mockCallback.mock.calls[0][1]).toEqual('BoxFrame');

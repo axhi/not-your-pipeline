@@ -80,7 +80,10 @@ router.get('/tracker', function (req, res) {
             uri: "https://www.pivotaltracker.com/services/v5/projects/" + projectId + "/iterations/" + jsonBody[0].number + "/analytics",
             method: 'GET'
         }, function (error, response, body) {
-          res.json(JSON.parse(body))
+            const result = JSON.parse(body);
+            result['start'] = jsonBody[0].start;
+            result['finish'] = jsonBody[0].finish;
+            res.json(result)
         })
     });
 });

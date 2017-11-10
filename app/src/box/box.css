@@ -4,11 +4,27 @@
     pointer-events: none;
 }
 
+.box-element span {
+    padding: 1rem;
+}
+
+.box-element h1, h2, h3 {
+    text-align: center;
+    padding: 10px;
+    margin-bottom: .5rem;
+    margin-top: -18px;
+    background: #45ada5;
+    font-weight: 300;
+}
+
 .box-element.quarter {
     width: 50%;
     display: inline-block;
     vertical-align: top;
-    background: beige;
+}
+
+.box-element.quarter div {
+    padding: .5rem;
 }
 
 .full {

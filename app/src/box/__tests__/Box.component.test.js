@@ -3,24 +3,20 @@ import {mount, shallow} from 'enzyme';
 import {Box} from "../Box.component";
 
 describe('Box()', () => {
-    fetch.mockResponse({});
-    const component = mount(<Box id="1" class="turds" />);
+    let component;
+
+    beforeEach(() => {
+        fetch.mockResponse(JSON.stringify({}));
+        component = mount(<Box id="1" class="turds"/>);
+    });
 
     it('sets the component up', () => {
-        fetch.mockResponse({});
-
         const divs = component.find("div");
 
         expect(divs.length).toBeGreaterThan(0);
     });
 
     it('sets classname from incoming props', () => {
-        fetch.mockResponse({
-            "stories_accepted": 5,
-            "bugs_created": 0,
-            "cycle_time": 8845000,
-            "rejection_rate": 0
-        });
         const div = component.find("div");
 
         expect(div.first().props().className).toEqual("turds");
@@ -28,18 +24,29 @@ describe('Box()', () => {
     });
 
     describe('tracker pull', () => {
-        it('displays content received from fetch', () => {
-            fetch.mockResponse({
+        let wrapper;
+        beforeEach(() => {
+            fetch.mockResponse(JSON.stringify({
                 "stories_accepted": 5,
                 "bugs_created": 0,
                 "cycle_time": 8845000,
-                "rejection_rate": 0
-            });
+                "rejection_rate": 0,
+                "start": "2017-11-06T08:00:00Z"
+            }));
+            wrapper = mount(<Box id="1" class="turds" apiKey='1234' projectId='1'/>);
+        });
 
-            const wrapper = mount(<Box id="1" class="turds" apiKey='1234' projectId='1' />);
-            wrapper.instance().getMetrics()
+        it('formats cycle time', () => {
+            return wrapper.instance().getMetrics()
                 .then(() => {
-                    expect(wrapper.find('.stories').first().innerText).toEqual(5);
+                    expect(wrapper.state().cycleTime).toEqual("2 hours");
+                });
+        });
+
+        it('formats start finish objects', () => {
+            return wrapper.instance().getMetrics()
+                .then(() => {
+                    expect(wrapper.state().start).toEqual("11/6/2017");
                 });
         });
     });

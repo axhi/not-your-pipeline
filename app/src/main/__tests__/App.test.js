@@ -4,7 +4,10 @@ import App from "../App";
 
 describe('App()', () => {
     describe('main app', () => {
-        fetch.mockResponse(JSON.stringify([]));
+        beforeEach(() => {
+            fetch.mockResponse(JSON.stringify([]));
+            fetch.resetMocks();
+        });
 
         it('sets the component up', () => {
             const component = mount(<App currentEnv={{loader: 'http://test.com'}}/>);
@@ -46,6 +49,11 @@ describe('App()', () => {
     });
 
     describe('magnification', () => {
+        beforeEach(() => {
+            fetch.mockResponse(JSON.stringify([{"finished_build": {"status": "failed"}}]));
+            fetch.resetMocks();
+        });
+        
         it('displays one box if hasFocus', () => {
             const shallowRend = mount(<App currentEnv={{loader: 'http://test.com'}}/>);
             shallowRend.setState({hasFocus: {}});
@@ -55,7 +63,6 @@ describe('App()', () => {
         });
 
         it('sets state if failed is in finished_build of concourse pipeline', () => {
-            fetch.mockResponse(JSON.stringify([{"finished_build": {"status": "failed"}}]));
 
             const wrapper = mount(<App currentEnv={{loader: 'http://test.com'}}/>);
             return wrapper.instance().checkForError().then(() => {

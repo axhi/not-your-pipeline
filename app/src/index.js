@@ -1,9 +1,19 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom'
+import { Provider } from 'react-redux'
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 import App from "./main/App";
-import {currentEnv} from "./config";
+import notYourPipeline from "./index.reducers";
+import {createStore} from 'redux'
 
-ReactDOM.render(<App currentEnv={currentEnv} />, document.getElementById('root'));
+let store = createStore(notYourPipeline);
+
+render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.getElementById('root')
+);
+
 registerServiceWorker();

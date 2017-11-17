@@ -1,8 +1,10 @@
 import React, {Component, createElement} from 'react';
+import { connect } from 'react-redux'
 import './app.css';
 import {Box} from "../box/Box.component";
 import {BoxFrame} from "../box/BoxFrame.component";
 import {InputBox} from "../inputBox/InputBox.component";
+import {currentEnv} from "../config";
 
 const components = {
     "BoxFrame": BoxFrame,
@@ -26,7 +28,7 @@ class App extends Component {
     }
 
     completeRequest(url) {
-        return fetch(this.props.currentEnv.loader + '/url?go=' + url)
+        return fetch(currentEnv.loader + '/url?go=' + url)
             .then((js) => js.json());
     }
 
@@ -128,5 +130,18 @@ class App extends Component {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {}
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {}
+};
+
+App = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(App);
 
 export default App;

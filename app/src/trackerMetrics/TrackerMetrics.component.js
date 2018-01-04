@@ -1,17 +1,17 @@
 import React, {Component} from 'react';
-import './box.css';
+import '../boxFrame/box.css';
 import {currentEnv} from '../config';
 import moment from 'moment';
 
-export class Box extends Component {
+export class TrackerMetrics extends Component {
     constructor() {
         super();
         this.state = {};
-        this.interval = setInterval(this.getMetrics.bind(this), 10000);
+        this.metricsInterval = setInterval(this.getMetrics.bind(this), 10000);
     }
 
     componentWillUnmount() {
-        clearInterval(this.interval);
+        clearInterval(this.metricsInterval);
     }
 
     componentDidMount() {
@@ -23,7 +23,7 @@ export class Box extends Component {
             .then((js) => js.json())
             .then((ob) => {
                 if (ob.error) {
-                    clearInterval(this.interval);
+                    clearInterval(this.metricsInterval);
                     this.setState({error: ob.error});
                 } else {
                     this.setState({

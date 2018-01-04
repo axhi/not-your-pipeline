@@ -1,13 +1,13 @@
 import React from 'react';
 import {mount, shallow} from 'enzyme';
-import {Box} from "../Box.component";
+import {TrackerMetrics} from "../TrackerMetrics.component";
 
-describe('Box()', () => {
+describe('TrackerMetrics()', () => {
     let component;
 
     beforeEach(() => {
         fetch.mockResponse(JSON.stringify({}));
-        component = mount(<Box id="1" class="turds"/>);
+        component = mount(<TrackerMetrics id="1" class="turds"/>);
     });
 
     it('sets the component up', () => {
@@ -33,7 +33,7 @@ describe('Box()', () => {
                 "rejection_rate": 0,
                 "start": "2017-11-06T08:00:00Z"
             }));
-            wrapper = mount(<Box id="1" class="turds" apiKey='1234' projectId='1'/>);
+            wrapper = mount(<TrackerMetrics id="1" class="turds" apiKey='1234' projectId='1'/>);
         });
 
         it('formats cycle time', () => {

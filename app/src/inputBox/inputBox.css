@@ -1,24 +1,25 @@
 .quarter-box.box {
     width: 100%;
+    height: 75%;
 }
 
 .quarter-box {
-    width: 50%;
-    height: 50%;
+    width: 33.3%;
+    height: 25%;
     display: inline-block;
     background: rgba(0,0,0,.1);
 }
 
 .quarter-box input, select {
-    width: 400px;
+    width: auto;
     border: 0;
     border-radius: 0;
-    height: 2rem;
+    height: auto;
     display: block;
     font-size: initial;
     margin: 1rem;
 }
 .quarter-box input {
-    width: 380px;
+    width: auto;
     padding: 10px;
 }

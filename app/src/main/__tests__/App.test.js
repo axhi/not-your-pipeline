@@ -19,14 +19,14 @@ describe('App()', () => {
         it('displays an input box if not input selected for all', () => {
             const shallowRend = mount(<App currentEnv={{loader: 'http://test.com'}}/>);
 
-            expect(shallowRend.find('InputBox').length).toBe(3);
+            expect(shallowRend.find('InputBox').length).toBe(4);
             expect(shallowRend.find('InputBox').first().props().callback).not.toBe(undefined);
             expect(shallowRend.find('InputBox').first().props().position).not.toBe(undefined);
         });
 
         it('sets box level when callback is triggered', () => {
             const wrapper = mount(<App currentEnv={{loader: 'http://test.com'}}/>);
-            wrapper.instance().setBoxState('topLeft', 'BoxFrame', {});
+            wrapper.instance().setBoxState(0, 'BoxFrame', {});
             wrapper.update();
 
             expect(wrapper.find('BoxFrame').length).toBe(1);
@@ -34,13 +34,15 @@ describe('App()', () => {
 
         describe('has been set', () => {
             const component = shallow(<App currentEnv={{loader: 'http://test.com'}}/>);
-            component.setState({topLeft: {type: 'BoxFrame'},
-                bottomLeft: {type: 'BoxFrame'},
-                bottomRight: {type: 'Box'}});
+            component.setState({
+                0: {type: 'BoxFrame'},
+                1: {type: 'BoxFrame'},
+                2: {type: 'TrackerMetrics'}
+            });
 
             it('builds boxes for third display', () => {
                 const boxes = component.find("BoxFrame");
-                const box = component.find("Box");
+                const box = component.find("TrackerMetrics");
 
                 expect(boxes.length).toBe(2);
                 expect(box.length).toBe(1);
@@ -53,21 +55,39 @@ describe('App()', () => {
             fetch.mockResponse(JSON.stringify([{"finished_build": {"status": "failed"}}]));
             fetch.resetMocks();
         });
-        
+
         it('displays one box if hasFocus', () => {
             const shallowRend = mount(<App currentEnv={{loader: 'http://test.com'}}/>);
-            shallowRend.setState({hasFocus: {}});
+            shallowRend.setState({hasFocus: {src: 'http://test.com', id : 0},
+                0: {type: 'BoxFrame', data: {}}});
+
             const boxes = shallowRend.find("BoxFrame");
 
             expect(boxes.length).toEqual(1);
         });
 
         it('sets state if failed is in finished_build of concourse pipeline', () => {
-
             const wrapper = mount(<App currentEnv={{loader: 'http://test.com'}}/>);
-            return wrapper.instance().checkForError().then(() => {
+
+            return wrapper.instance().fetchPipelineErrors().then(() => {
                 expect(wrapper.state().hasFocus).not.toBe(undefined);
             });
+        });
+
+        it('magnifies non frame boxes', () => {
+            const wrapper = mount(<App currentEnv={{loader: 'http://test.com'}}/>);
+            wrapper.setState({
+                1: {
+                    type: 'ProdPush', data: {
+                        id: 'prodPush-1',
+                        class: 'box-element',
+                        prodDate: '2017-01-01'
+                    }
+                }
+            });
+
+            const val = wrapper.instance().fetchProdPushErrors();
+            expect(val).toEqual({id: 1});
         });
     });
 });

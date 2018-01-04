@@ -1,24 +1,21 @@
 .box-element {
-    height: 50%;
+    height: 75%;
     width: 100%;
     pointer-events: none;
-}
-
-.box-element span {
-    padding: 1rem;
 }
 
 .box-element h1, h2, h3 {
     text-align: center;
     padding: 10px;
     margin-bottom: .5rem;
-    margin-top: -18px;
+    margin-top: 0;
     background: #45ada5;
     font-weight: 300;
 }
 
 .box-element.quarter {
-    width: 50%;
+    width: 33%;
+    height: 25%;
     display: inline-block;
     vertical-align: top;
 }
@@ -31,4 +28,10 @@
     height: 100%;
     width: 100%;
     pointer-events: none;
+}
+
+.days-since {
+    text-align: center;
+    margin: auto 0;
+    font-size: 10rem;
 }

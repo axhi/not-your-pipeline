@@ -5,6 +5,7 @@ import {InputBox} from "../InputBox.component";
 describe('InputBox()', () => {
     const mockCallback = jest.fn();
     const wrapper = shallow(<InputBox position={'topLeft'}
+                                      number={1}
                                       callback={mockCallback}/>);
     it('executes callback on button click', () => {
         wrapper.find('form').simulate('submit', {preventDefault: ()=>{}});
@@ -40,7 +41,7 @@ describe('InputBox()', () => {
             wrapper.find('input').first().simulate('change', {target: {value: 'asdf'}});
             wrapper.find('form').first().simulate('submit', {preventDefault: ()=>{}});
 
-            expect(mockCallback.mock.calls[0][0]).toEqual('topLeft');
+            expect(mockCallback.mock.calls[0][0]).toEqual(1);
             expect(mockCallback.mock.calls[0][1]).toEqual('BoxFrame');
             expect(mockCallback.mock.calls[0][2]).toEqual({
                 "apiKey": "",
@@ -48,6 +49,7 @@ describe('InputBox()', () => {
                 "half": undefined,
                 "id": "pipeline-1",
                 "projectId": "",
+                "prodDate": "",
                 "src": ""});
         });
     });

@@ -7,20 +7,14 @@ const classMappings = {
         id: 1,
         frameClass: 'quarter-box box'
     },
-    bottomLeft: {
+    bottom: {
         class: 'box-element quarter',
         half: true,
-        id: 2,
-        frameClass: 'quarter-box'
-    },
-    bottomRight: {
-        class: 'box-element quarter',
-        half: true,
-        id: 3,
         frameClass: 'quarter-box'
     },
     pipeline: 'BoxFrame',
-    tracker: 'Box'
+    tracker: 'TrackerMetrics',
+    prodPush: 'ProdPush'
 };
 
 export class InputBox extends Component {
@@ -30,7 +24,8 @@ export class InputBox extends Component {
             type: 'pipeline',
             src: '',
             apiKey: '',
-            projectId: ''
+            projectId: '',
+            prodDate: ''
         };
     }
 
@@ -41,14 +36,15 @@ export class InputBox extends Component {
     handleSubmit(e) {
         e.preventDefault();
         const classMappingType = classMappings[this.props.position];
-        this.props.callback(this.props.position,
+        this.props.callback(this.props.number,
             classMappings[this.state.type], {
                 class: classMappingType.class,
                 half: classMappingType.half,
-                id: this.state.type + '-' + classMappingType.id,
+                id: this.state.type + '-' + this.props.number,
                 src: this.state.src,
                 apiKey: this.state.apiKey,
-                projectId: this.state.projectId
+                projectId: this.state.projectId,
+                prodDate: this.state.prodDate
             });
     }
 
@@ -60,9 +56,11 @@ export class InputBox extends Component {
                         onChange={(e) => this.handleChange(e, 'type')}>
                     <option value="pipeline">Concourse</option>
                     <option value="tracker">Pivotal Tracker</option>
+                    <option value="prodPush">Time Since Last Push</option>
                 </select>
                 {this.displayConcourse()}
                 {this.displayTracker()}
+                {this.displayProdPush()}
                 <input type="submit" value="Submit" disabled={this.isComplete() ? '' : 'true'}/>
             </form>
         </div>
@@ -95,8 +93,21 @@ export class InputBox extends Component {
         }
     }
 
+    displayProdPush() {
+        if (this.state.type === 'prodPush') {
+            return <div>
+                <input type='date'
+                       id='api-date'
+                       value={this.state.prodDate}
+                       onChange={(e) => this.handleChange(e, 'prodDate')}
+                       placeholder='Date Since Last Push'/>
+            </div>
+        }
+    }
+
     isComplete() {
         return (this.state.type === 'tracker' && (this.state.apiKey && this.state.projectId))
             || (this.state.type === 'pipeline' && this.state.src)
+            || (this.state.type === 'prodPush' && this.state.prodDate)
     }
 }

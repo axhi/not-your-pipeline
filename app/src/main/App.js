@@ -1,12 +1,14 @@
 import React, {Component, createElement} from 'react';
 import './app.css';
-import {Box} from "../box/Box.component";
-import {BoxFrame} from "../box/BoxFrame.component";
+import {BoxFrame} from "../boxFrame/BoxFrame.component";
 import {InputBox} from "../inputBox/InputBox.component";
+import {TrackerMetrics} from "../trackerMetrics/TrackerMetrics.component";
+import {ProdPush} from "../prodPush/ProdPush.component";
 
 const components = {
     "BoxFrame": BoxFrame,
-    "Box": Box
+    "TrackerMetrics": TrackerMetrics,
+    "ProdPush": ProdPush
 };
 
 class App extends Component {
@@ -14,9 +16,10 @@ class App extends Component {
         super(props, context);
         this.state = {
             hasFocus: null,
-            topLeft: null,
-            bottomLeft: null,
-            bottomRight: null
+            0: null,
+            1: null,
+            2: null,
+            3: null
         };
         this.interval = setInterval(this.checkForError.bind(this), 1000);
     }
@@ -31,7 +34,42 @@ class App extends Component {
     }
 
     checkForError() {
+        this.fetchPipelineErrors()
+            .then((e) => {
+                if (e) {
+                    return this.setState({hasFocus: e});
+                } else {
+                    return this.setState({hasFocus: this.fetchProdPushErrors()})
+                }
+            });
+    }
+
+    fetchProdPushErrors() {
         const boxes = this.refs.app.getElementsByClassName('box-element');
+
+        let fetchRequests = [];
+        let focusObject = null;
+
+        for (let i = 0; i < boxes.length; i++) {
+            if (boxes[i].id.startsWith('prodPush')) {
+                fetchRequests.push(boxes[i]);
+            }
+        }
+
+        fetchRequests.forEach((e) => {
+            if (Number(e.getElementsByClassName('days-since')[0].innerHTML) > 14) {
+                focusObject = {
+                    id: Number(e.getAttribute('id').split('-')[1])
+                };
+            }
+        });
+
+        return focusObject;
+    }
+
+    fetchPipelineErrors() {
+        const boxes = this.refs.app.getElementsByClassName('box-element');
+
         let fetchRequests = [];
         let focusObject = null;
 
@@ -57,62 +95,45 @@ class App extends Component {
             z.forEach((n) => {
                 if (n.length) {
                     focusObject = {
-                        id: n.key.id,
+                        id: n.key.id.split('-')[1],
                         src: n.key.getElementsByTagName('iframe')[0].src
                     }
                 }
             });
         }).then(() => {
-            this.setState({hasFocus: focusObject});
+            return focusObject;
         });
     }
 
     displayBoxes() {
         if (!this.state.hasFocus) {
             return <span>
-                {this.displayTopLeftBox()}
-                {this.displayBottomLeftBox()}
-                {this.displayBottomRightBox()}
+                {this.displayBoxComponents(0, 'topLeft')}
+                {this.displayBoxComponents(1, 'bottom')}
+                {this.displayBoxComponents(2, 'bottom')}
+                {this.displayBoxComponents(3, 'bottom')}
                 </span>
         }
     }
 
     displayMainBox() {
         if (this.state.hasFocus) {
-            return <BoxFrame id={this.state.hasFocus.id}
-                             class={'box-element full'}
-                             src={this.state.hasFocus.src}/>
+            this.state[this.state.hasFocus.id].data =
+                Object.assign(this.state[this.state.hasFocus.id].data, {class: "box-element full", src: this.state.hasFocus.src});
+            return createElement(components[this.state[this.state.hasFocus.id].type],
+                this.state[this.state.hasFocus.id].data);
         }
     }
 
-    displayTopLeftBox() {
-        if (!this.state.topLeft) {
+    displayBoxComponents(keyObj, position) {
+        if (!this.state[keyObj]) {
             return <InputBox callback={this.setBoxState.bind(this)}
-                             position='topLeft'/>;
+                             number={keyObj}
+                             position={position}/>;
         }
 
-        return createElement(components[this.state.topLeft.type],
-            this.state.topLeft.data);
-    }
-
-    displayBottomLeftBox() {
-        if (!this.state.bottomLeft) {
-            return <InputBox callback={this.setBoxState.bind(this)}
-                             position='bottomLeft'/>;
-        }
-
-        return createElement(components[this.state.bottomLeft.type],
-            this.state.bottomLeft.data);
-    }
-
-    displayBottomRightBox() {
-        if (!this.state.bottomRight) {
-            return <InputBox callback={this.setBoxState.bind(this)}
-                             position='bottomRight'/>;
-        }
-
-        return createElement(components[this.state.bottomRight.type],
-            this.state.bottomRight.data);
+        return createElement(components[this.state[keyObj].type],
+            this.state[keyObj].data);
     }
 
     setBoxState(level, type, data) {

@@ -13,11 +13,16 @@
     font-weight: 300;
 }
 
+.box-element iframe {
+    margin-top: -38px;
+}
+
 .box-element.quarter {
     width: 50%;
     height: 25%;
     display: inline-block;
-    vertical-align: top;
+    margin-top: -38px;
+    vertical-align: -webkit-baseline-middle;
 }
 
 .box-element.quarter div {

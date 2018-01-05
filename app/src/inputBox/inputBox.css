@@ -1,6 +1,6 @@
 .quarter-box.box {
     width: 100%;
-    height: 75%;
+    height: 74%;
 }
 
 .quarter-box {
@@ -8,6 +8,7 @@
     height: 25%;
     display: inline-block;
     border: 1px solid rgba(0,0,0,.1);
+    vertical-align: -webkit-baseline-middle;
 }
 
 .quarter-box input {

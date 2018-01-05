@@ -9,7 +9,7 @@ export class BoxFrame extends Component {
                     src={this.props.src}
                     width="100%"
                     title={this.props.id}
-                    height="99%"
+                    height="100%"
             />
         </div>
     }

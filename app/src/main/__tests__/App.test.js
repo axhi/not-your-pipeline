@@ -19,7 +19,7 @@ describe('App()', () => {
         it('displays an input box if not input selected for all', () => {
             const shallowRend = mount(<App currentEnv={{loader: 'http://test.com'}}/>);
 
-            expect(shallowRend.find('InputBox').length).toBe(4);
+            expect(shallowRend.find('InputBox').length).toBe(3);
             expect(shallowRend.find('InputBox').first().props().callback).not.toBe(undefined);
             expect(shallowRend.find('InputBox').first().props().position).not.toBe(undefined);
         });

@@ -111,7 +111,6 @@ class App extends Component {
                 {this.displayBoxComponents(0, 'topLeft')}
                 {this.displayBoxComponents(1, 'bottom')}
                 {this.displayBoxComponents(2, 'bottom')}
-                {this.displayBoxComponents(3, 'bottom')}
                 </span>
         }
     }

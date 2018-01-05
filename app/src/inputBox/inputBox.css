@@ -4,22 +4,23 @@
 }
 
 .quarter-box {
-    width: 33.3%;
+    width: 49%;
     height: 25%;
     display: inline-block;
-    background: rgba(0,0,0,.1);
+    border: 1px solid rgba(0,0,0,.1);
+}
+
+.quarter-box input {
+    display: inline-block;
+}
+
+.quarter-box select {
+    display: block;
 }
 
 .quarter-box input, select {
-    width: auto;
-    border: 0;
     border-radius: 0;
-    height: auto;
-    display: block;
     font-size: initial;
     margin: 1rem;
-}
-.quarter-box input {
-    width: auto;
     padding: 10px;
 }

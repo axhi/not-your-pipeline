@@ -3,6 +3,11 @@ import {mount, shallow} from 'enzyme';
 import App from "../App";
 
 describe('App()', () => {
+    beforeEach(() => {
+        localStorage.clear();
+        localStorage.setItem.mockReset();
+    });
+
     describe('main app', () => {
         beforeEach(() => {
             fetch.mockResponse(JSON.stringify([]));
@@ -35,9 +40,9 @@ describe('App()', () => {
         describe('has been set', () => {
             const component = shallow(<App currentEnv={{loader: 'http://test.com'}}/>);
             component.setState({
-                0: {type: 'BoxFrame'},
-                1: {type: 'BoxFrame'},
-                2: {type: 'TrackerMetrics'}
+                0: {type: 'BoxFrame', data: {}},
+                1: {type: 'BoxFrame', data: {}},
+                2: {type: 'TrackerMetrics', data: {}}
             });
 
             it('builds boxes for third display', () => {
@@ -50,13 +55,26 @@ describe('App()', () => {
         });
 
         describe('has been reset', () => {
-            const component = shallow(<App currentEnv={{loader: 'http://test.com'}}/>);
+            it('resets function', () => {
+                const component = shallow(<App currentEnv={{loader: 'http://test.com'}}/>);
 
-            component.setState({0: {type: 'BoxFrame', data: {}}, hasFocus: {src: 'as', id: 0}});
-            component.instance().setBoxState(0, null, null);
+                component.setState({0: {type: 'BoxFrame', data: {}}, hasFocus: {src: 'as', id: 0}});
+                component.instance().setBoxState(0, null, null);
 
-            expect(component.state()["0"]).toBe(null);
-            expect(component.state()["hasFocus"]).toBe(null);
+                expect(component.state()["0"]).toBe(null);
+                expect(component.state()["hasFocus"]).toBe(null);
+            });
+        });
+
+        describe('settings cached', () => {
+            let component;
+            beforeEach(() => {
+                component = shallow(<App currentEnv={{loader: 'http://test.com'}}/>);
+            });
+
+            it('sets state if in cache', () => {
+                expect(component.state()).toEqual({"0": null, "1": null, "2": null, "hasFocus": null});
+            });
         });
     });
 
@@ -68,8 +86,10 @@ describe('App()', () => {
 
         it('displays one box if hasFocus', () => {
             const shallowRend = mount(<App currentEnv={{loader: 'http://test.com'}}/>);
-            shallowRend.setState({hasFocus: {src: 'http://test.com', id : 0},
-                0: {type: 'BoxFrame', data: {}}});
+            shallowRend.setState({
+                hasFocus: {src: 'http://test.com', id: 0},
+                0: {type: 'BoxFrame', data: {}}
+            });
 
             const boxes = shallowRend.find("BoxFrame");
 

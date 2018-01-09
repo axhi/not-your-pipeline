@@ -12,16 +12,14 @@ const components = {
 };
 
 class App extends Component {
-    constructor(props, context) {
-        super(props, context);
-        this.state = {
-            hasFocus: null,
-            0: null,
-            1: null,
-            2: null,
-            3: null
-        };
+    constructor() {
+        super();
+        this.state = {hasFocus: null};
         this.interval = setInterval(this.checkForError.bind(this), 1000);
+    }
+
+    componentDidMount() {
+        this.constructBoxes();
     }
 
     componentWillUnmount() {
@@ -130,15 +128,31 @@ class App extends Component {
         }
 
         return createElement(components[this.state[keyObj].type],
-            this.state[keyObj].data);
+            Object.assign(this.state[keyObj].data, {callback: this.setBoxState.bind(this)}));
     }
 
     setBoxState(level, type, data) {
+        let obj = null;
         if (type === null || data === null) {
-            this.setState({[level]: null, hasFocus: null});
+            obj = {[level]: null, hasFocus: null};
         } else {
-            this.setState({[level]: {type: type, data: data}});
+            obj = {[level]: {type: type, data: data}};
         }
+
+        this.setState(obj);
+        localStorage.setItem('configuration', JSON.stringify(Object.assign({},
+            JSON.parse(localStorage.getItem('configuration')),
+            obj)));
+    }
+
+    constructBoxes() {
+        let stateSetting = {hasFocus: null, 0: null, 1: null, 2: null};
+
+        if (localStorage.getItem('configuration')) {
+            stateSetting = JSON.parse(localStorage.getItem('configuration'));
+        }
+
+        this.setState(stateSetting);
     }
 
     render() {

@@ -11,6 +11,6 @@ RUN ./download-repos.sh
 RUN ./install-node-packages.sh
 
 EXPOSE 3000
-EXPOSE 8080
+EXPOSE 8675
 
 CMD ./start-servers.sh

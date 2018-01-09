@@ -1,6 +1,6 @@
 let ENV_SETTINGS = {
     local: {
-        loader: 'http://localhost:8080'
+        loader: 'http://localhost:8675'
     },
     dev: {
         loader: 'https://not-your-loader-dev.cfapps.io'

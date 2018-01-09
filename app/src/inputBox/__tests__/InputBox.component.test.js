@@ -50,6 +50,8 @@ describe('InputBox()', () => {
                 "id": "pipeline-1",
                 "projectId": "",
                 "prodDate": "",
+                "callback": mockCallback,
+                "number": 1,
                 "src": ""});
         });
     });

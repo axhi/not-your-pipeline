@@ -44,7 +44,9 @@ export class InputBox extends Component {
                 src: this.state.src,
                 apiKey: this.state.apiKey,
                 projectId: this.state.projectId,
-                prodDate: this.state.prodDate
+                prodDate: this.state.prodDate,
+                callback: this.props.callback,
+                number: this.props.number
             });
     }
 

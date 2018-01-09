@@ -117,10 +117,8 @@ class App extends Component {
 
     displayMainBox() {
         if (this.state.hasFocus) {
-            this.state[this.state.hasFocus.id].data =
-                Object.assign(this.state[this.state.hasFocus.id].data, {class: "box-element full", src: this.state.hasFocus.src});
             return createElement(components[this.state[this.state.hasFocus.id].type],
-                this.state[this.state.hasFocus.id].data);
+                Object.assign(this.state[this.state.hasFocus.id].data, {class: "box-element full", src: this.state.hasFocus.src}));
         }
     }
 
@@ -136,7 +134,11 @@ class App extends Component {
     }
 
     setBoxState(level, type, data) {
-        this.setState({[level]: {type: type, data: data}});
+        if (type === null || data === null) {
+            this.setState({[level]: null, hasFocus: null});
+        } else {
+            this.setState({[level]: {type: type, data: data}});
+        }
     }
 
     render() {

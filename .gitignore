@@ -6,7 +6,7 @@ keys
 node_modules
 .DS_Store
 bundle
-css
+app/public/css
 .tmp
 npm-debug.log
 concourse/credentials.yml

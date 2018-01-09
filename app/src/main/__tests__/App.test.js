@@ -48,6 +48,16 @@ describe('App()', () => {
                 expect(box.length).toBe(1);
             });
         });
+
+        describe('has been reset', () => {
+            const component = shallow(<App currentEnv={{loader: 'http://test.com'}}/>);
+
+            component.setState({0: {type: 'BoxFrame', data: {}}, hasFocus: {src: 'as', id: 0}});
+            component.instance().setBoxState(0, null, null);
+
+            expect(component.state()["0"]).toBe(null);
+            expect(component.state()["hasFocus"]).toBe(null);
+        });
     });
 
     describe('magnification', () => {

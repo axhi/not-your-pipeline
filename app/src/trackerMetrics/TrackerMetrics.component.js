@@ -1,12 +1,12 @@
-import React, {Component} from 'react';
+import React from 'react';
 import '../boxFrame/box.css';
 import {currentEnv} from '../config';
 import moment from 'moment';
+import {Box} from "../box/Box.component";
 
-export class TrackerMetrics extends Component {
+export class TrackerMetrics extends Box {
     constructor() {
         super();
-        this.state = {};
         this.metricsInterval = setInterval(this.getMetrics.bind(this), 10000);
     }
 
@@ -38,13 +38,6 @@ export class TrackerMetrics extends Component {
             });
     }
 
-    render() {
-        return <div className={this.props.class}
-                    id={this.props.id}>
-            {this.displayAnalytics()}
-        </div>
-    }
-
     displayAnalytics() {
         if (this.state.error) {
             return <div>{this.state.error}</div>;
@@ -65,5 +58,13 @@ export class TrackerMetrics extends Component {
             </div>
             </span>
         }
+    }
+
+    render() {
+        return <div className={this.props.class}
+                    id={this.props.id}>
+            <span className="reset" onClick={this.reset.bind(this)}>X</span>
+            {this.displayAnalytics()}
+        </div>
     }
 }

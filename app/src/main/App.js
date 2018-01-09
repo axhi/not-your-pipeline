@@ -142,6 +142,7 @@ class App extends Component {
     render() {
         return (
             <div className="app" ref='app'>
+                <div className='logo' />
                 {this.displayBoxes()}
                 {this.displayMainBox()}
             </div>

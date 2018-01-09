@@ -3,3 +3,16 @@
   width: 100%;
   position: absolute;
 }
+
+.logo {
+  background: url(./logo.png) no-repeat 20px #ffffff;
+  background-size: 140px;
+  position: absolute;
+  right: 0;
+  z-index: 9;
+  height: 62px;
+  width: 164px;
+  border-radius: 2px;
+  margin: 8px;
+  padding: 8px;
+}

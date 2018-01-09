@@ -1,7 +1,6 @@
 FROM node:9.2.0
 
 WORKDIR /app
-COPY download-repos.sh /app
 COPY install-node-packages.sh /app
 COPY start-servers.sh /app
 COPY start-api-server.sh /app

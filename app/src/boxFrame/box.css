@@ -1,7 +1,6 @@
 .box-element {
     height: 75%;
     width: 100%;
-    pointer-events: none;
 }
 
 .box-element h1, h2, h3 {
@@ -13,20 +12,21 @@
     font-weight: 300;
 }
 
-.box-element iframe {
-    margin-top: -38px;
-}
-
 .box-element.quarter {
     width: 50%;
     height: 25%;
     display: inline-block;
-    margin-top: -38px;
     vertical-align: -webkit-baseline-middle;
 }
 
 .box-element.quarter div {
     padding: .5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.box-element.quarter span {
+    font-weight: normal;
 }
 
 .full {

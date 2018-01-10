@@ -5,14 +5,14 @@
 }
 
 .logo {
-  background: url(./logo.png) no-repeat 20px #ffffff;
-  background-size: 140px;
+  background: url(./logo.png) no-repeat;
+  background-size: 100%;
   position: absolute;
   right: 0;
-  z-index: 9;
   height: 62px;
-  width: 164px;
+  width: 211px;
   border-radius: 2px;
   margin: 8px;
-  padding: 8px;
+  padding: 2rem;
+  bottom: 0;
 }

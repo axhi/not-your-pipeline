@@ -45,16 +45,16 @@ export class TrackerMetrics extends Box {
             return <span>
                 <h3>Iteration: {this.state.start} - {this.state.finish}</h3>
             <div className='stories'>
-                Stories Accepted: {this.state.storiesAccepted | 0}
+                <span>Stories Accepted:</span> {this.state.storiesAccepted | 0}
             </div>
             <div className='bugs'>
-                Bugs Created: {this.state.bugsCreated | 0}
+                <span>Bugs Created:</span> {this.state.bugsCreated | 0}
             </div>
             <div className='cycle'>
-                Cycle Time: {this.state.cycleTime}
+                <span>Cycle Time:</span> {this.state.cycleTime}
             </div>
             <div className='rejection'>
-                Rejection Rate: {this.state.rejectionRate | 0}
+                <span>Rejection Rate:</span> {this.state.rejectionRate | 0}
             </div>
             </span>
         }
